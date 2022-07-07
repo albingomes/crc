@@ -30,7 +30,6 @@ module crc(
 logic [4:0]     counter;
 logic [15:0]    shift_reg;
 logic [47:0]    data_in;
-parameter       counter_max = 31;
 
 //-----------------------------------------------------------------------------------
 // Assignment
@@ -76,12 +75,12 @@ end
 // counter and crc_done
 always_ff @ (posedge clk) begin 
     if (reset_n == 0) begin
-        counter     <= counter_max;
+        counter     <= 31;
         crc_done    <= 0;
     end 
     else begin
         if (enable == 0) begin
-            counter     <= counter_max;
+            counter     <= 31;
             crc_done    <= 0;
         end 
         else begin 
