@@ -6,7 +6,7 @@
 // Device       : N/A
 // Description  : Generates 16 bit CRC code for 32 bit data
 //                G(x) = x^16 + x^12 + x^5 + 1
-// Limitations  : 16 clock cycles needed to generate 16 bit CRC code
+// Limitations  : 32 clock cycles needed to generate 16 bit CRC code (cycle through 32 bit data)
 //                Load data, wait 1 cycle to enable core
 //                Wait atleast 2 cycles after reset is de-asserted to assert enable
 // Version      : 0.1

@@ -6,9 +6,7 @@
 // Device       : N/A
 // Description  : Generates 16 bit CRC code for 32 bit data
 //                G(x) = x^16 + x^12 + x^5 + 1
-// Limitations  : 32 clock cycles needed to generate 16 bit CRC code (cycle through 32 bit data)
-//                Load data, wait 1 cycle to enable core
-//                Wait atleast 2 cycles after reset is de-asserted to assert enable
+// Limitations  : 32 clock cycles needed to generate 16 bit CRC code
 // Version      : 0.1
 //===================================================================================
 
@@ -53,22 +51,24 @@ always_ff @ (posedge clk) begin
             shift_reg   <= data_in[47:32];
         end 
         else begin
-            shift_reg[15]   <= shift_reg[14];
-            shift_reg[14]   <= shift_reg[13];
-            shift_reg[13]   <= shift_reg[12];
-            shift_reg[12]   <= shift_reg[11] ^ shift_reg[15];
-            shift_reg[11]   <= shift_reg[10];
-            shift_reg[10]   <= shift_reg[9];
-            shift_reg[9]    <= shift_reg[8];
-            shift_reg[8]    <= shift_reg[7];
-            shift_reg[7]    <= shift_reg[6];
-            shift_reg[6]    <= shift_reg[5];
-            shift_reg[5]    <= shift_reg[4] ^ shift_reg[15];
-            shift_reg[4]    <= shift_reg[3];
-            shift_reg[3]    <= shift_reg[2];
-            shift_reg[2]    <= shift_reg[1];
-            shift_reg[1]    <= shift_reg[0];
-            shift_reg[0]    <= data_in[counter] ^ shift_reg[15];
+            if(crc_done != 1) begin
+                shift_reg[15]   <= shift_reg[14];
+                shift_reg[14]   <= shift_reg[13];
+                shift_reg[13]   <= shift_reg[12];
+                shift_reg[12]   <= shift_reg[11] ^ shift_reg[15];
+                shift_reg[11]   <= shift_reg[10];
+                shift_reg[10]   <= shift_reg[9];
+                shift_reg[9]    <= shift_reg[8];
+                shift_reg[8]    <= shift_reg[7];
+                shift_reg[7]    <= shift_reg[6];
+                shift_reg[6]    <= shift_reg[5];
+                shift_reg[5]    <= shift_reg[4] ^ shift_reg[15];
+                shift_reg[4]    <= shift_reg[3];
+                shift_reg[3]    <= shift_reg[2];
+                shift_reg[2]    <= shift_reg[1];
+                shift_reg[1]    <= shift_reg[0];
+                shift_reg[0]    <= data_in[counter] ^ shift_reg[15];
+            end
         end  
     end 
 end
@@ -90,6 +90,5 @@ always_ff @ (posedge clk) begin
         end 
     end 
 end 
-    
-    
+
 endmodule
